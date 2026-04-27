@@ -3,19 +3,34 @@
  */
 package f;
 
+// import java.awt.Image;
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+// import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class App extends Application{
 @Override
     public void start(Stage stage) {
-        Label label = new Label("Hello JavaFX 21!");
-        Scene scene = new Scene(new StackPane(label), 640, 480);
+        try{
+        //loads UI designed from SceneBuilder
+        Parent root = FXMLLoader.load(getClass().getResource("app.fxml"));
+        Scene scene = new Scene(root);
+
+        stage.setTitle("COS 221 PRAC 4");
         stage.setScene(scene);
+        // stage.setResizable(false);
         stage.show();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        
     }
 
     public static void main(String[] args) {
