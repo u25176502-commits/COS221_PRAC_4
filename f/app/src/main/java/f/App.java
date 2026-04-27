@@ -6,9 +6,11 @@ package f;
 // import java.awt.Image;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 // import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
@@ -18,23 +20,25 @@ public class App extends Application{
 @Override
     public void start(Stage stage) {
         try{
-        //loads UI designed from SceneBuilder
-        Parent root = FXMLLoader.load(getClass().getResource("app.fxml"));
-        Scene scene = new Scene(root);
+            //loads UI designed from SceneBuilder
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("app.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
 
-        stage.setTitle("COS 221 PRAC 4");
-        stage.setScene(scene);
-        // stage.setResizable(false);
-        stage.show();
-        } catch(Exception e){
-            e.printStackTrace();
+            stage.setTitle("COS 221 PRAC 4");
+            stage.setScene(scene);
+            // stage.setResizable(false);
+            stage.show();
+            } catch(Exception e){
+                e.printStackTrace();
         }
 
-        
+
     }
 
     public static void main(String[] args) {
         launch();
         //calls start method behind the scences
     }
+
 }
