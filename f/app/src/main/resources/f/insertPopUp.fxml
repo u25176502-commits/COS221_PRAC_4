@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Scene?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Scene xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="f.InsertPopUpController">
+    <AnchorPane prefHeight="447.0" prefWidth="385.0">
+      <children>
+         <ComboBox fx:id="cmbAlbum" layoutX="84.0" layoutY="94.0" prefHeight="26.0" prefWidth="274.0" />
+         <ComboBox fx:id="cmbMedia" layoutX="84.0" layoutY="142.0" prefHeight="26.0" prefWidth="274.0" />
+         <ComboBox fx:id="cmbGenre" layoutX="84.0" layoutY="183.0" prefHeight="26.0" prefWidth="270.0" />
+         <TextField fx:id="txtName" layoutX="82.0" layoutY="53.0" prefHeight="26.0" prefWidth="277.0" />
+         <TextField fx:id="txtComposer" layoutX="84.0" layoutY="224.0" prefHeight="26.0" prefWidth="271.0" />
+         <Spinner fx:id="spnBytes" layoutX="83.0" layoutY="272.0" prefHeight="26.0" prefWidth="149.0" />
+         <Text layoutX="16.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
+         <Text layoutX="12.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Album" />
+         <Text layoutX="11.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Media Type" wrappingWidth="73.039794921875" />
+         <Text layoutX="13.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre" />
+         <Text layoutX="15.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Milliseconds" />
+         <Text layoutX="12.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Composer" />
+         <Text layoutX="13.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bytes" />
+         <Text layoutX="12.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unit Price" />
+         <Spinner fx:id="spnPrice" editable="true" layoutX="83.0" layoutY="361.0" >
+            <valueFactory>
+                <SpinnerValueFactory.DoubleValueFactory min="0.0" max="10.0" initialValue="5.0" amountToStepBy="0.1"/>
+            </valueFactory>
+        </Spinner>
+         <Spinner fx:id="spnLength" layoutX="83.0" layoutY="319.0" />
+         <Text layoutX="19.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a Track">
+            <font>
+               <Font name="System Bold" size="28.0" />
+            </font>
+         </Text>
+         <Button fx:id="btnAdd" layoutX="288.0" layoutY="355.0" mnemonicParsing="false" onAction="#insertion" text="+ Add">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </Button>
+      </children></AnchorPane>
+</Scene>

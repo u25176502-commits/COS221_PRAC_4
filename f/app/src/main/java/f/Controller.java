@@ -6,9 +6,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextArea;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Spinner;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class Controller {
 
@@ -26,6 +32,7 @@ public class Controller {
         );
 
         initLoadEmployee();
+        
     }
 
 
@@ -121,5 +128,81 @@ public class Controller {
         } catch (SQLException e) {
             tabEmployee.setText("Database error: " + e.getMessage());
         }
+    }
+
+    @FXML 
+    public void ShowInsertPop(){
+        try{
+            //loads pop up
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("insertPopUp.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+
+            stage.initModality(Modality.APPLICATION_MODAL); //makes other windows uninteractible with
+            stage.setTitle("COS 221 PRAC 4");
+            stage.setScene(scene);
+            // stage.setResizable(false);
+            stage.show();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    //TRACKS
+    @FXML private ComboBox cmbGenre;
+    @FXML private ComboBox cmbAlbum;
+    @FXML private ComboBox cmbMedia;
+
+    public void loadSpinners(){
+        try {
+            //genre
+            String query = "SELECT Name from genre;";                
+            Connection conn = DatabaseManager.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query); 
+
+            while (rs.next()){
+                cmbGenre.getItems().add(rs.getString("Name"));
+            }
+            
+            //MediaType
+            query = "SELECT Name from mediatype;";
+
+            Connection conn2 = DatabaseManager.getConnection();
+            Statement stmt2 = conn2.createStatement();
+            ResultSet rs2 = stmt2.executeQuery(query);
+
+            while (rs2.next()){
+                cmbMedia.getItems().add(rs2.getString("Name"));
+            }
+
+            //Album
+            query = "SELECT Title from album;";
+
+            Connection conn3 = DatabaseManager.getConnection();
+            Statement stmt3 = conn3.createStatement();
+            ResultSet rs3 = stmt3.executeQuery(query);
+
+            while (rs3.next()){
+                cmbMedia.getItems().add(rs3.getString("Name"));
+            }     
+
+        } catch (SQLException e) {
+            tabEmployee.setText("Database error: " + e.getMessage());
+        }
+    }
+
+    // @FXML private ComboBox cmbGenre;
+    // @FXML private ComboBox cmbAlbum;
+    // @FXML private ComboBox cmbMedia;
+    @FXML private TextField txtName;
+    @FXML private TextField txtComposer;
+    @FXML private Spinner spnBytes;
+
+    @FXML
+    public void insertion(){
+
     }
 }

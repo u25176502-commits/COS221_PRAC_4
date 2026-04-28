@@ -50,7 +50,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="bNewTrack" layoutX="1059.0" layoutY="16.0" mnemonicParsing="false" text="+ Add New Track" wrapText="true">
+                        <Button fx:id="bNewTrack" layoutX="1059.0" layoutY="16.0" mnemonicParsing="false" onAction="#ShowInsertPop" text="+ Add New Track" wrapText="true">
                            <font>
                               <Font size="16.0" />
                            </font>
