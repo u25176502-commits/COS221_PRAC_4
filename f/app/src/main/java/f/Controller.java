@@ -260,7 +260,7 @@ public class Controller {
         // sb.append("Genre");   //headings
         // sb.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
 
-        String query = "SELECT T.Genre, SUM(T.Revenue) AS 'Total Revenue' FROM (SELECT genre.Name AS Genre, track.UnitPrice AS Revenue FROM invoiceline LEFT JOIN track ON invoiceline.TrackId = track.TrackId LEFT JOIN genre ON genre.GenreId = track.GenreId) AS T GROUP BY Genre;";
+        String query = "SELECT T.Genre, SUM(T.Revenue) AS TotalRevenue FROM (SELECT genre.Name AS Genre, track.UnitPrice AS Revenue FROM invoiceline LEFT JOIN track ON invoiceline.TrackId = track.TrackId LEFT JOIN genre ON genre.GenreId = track.GenreId) AS T GROUP BY Genre ORDER BY TotalRevenue DESC;";
         try (Connection conn = DatabaseManager.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
@@ -268,7 +268,7 @@ public class Controller {
             while (rs.next()){
                 sb.append(rs.getString("Genre"));
                 sb.append(": $");
-                sb.append(rs.getFloat("Total Revenue"));
+                sb.append(rs.getFloat("TotalRevenue"));
                 sb.append('\n');
             }
             
@@ -468,5 +468,45 @@ public class Controller {
                 }
             }
         });
+    }
+
+    @FXML
+    public void LoadNotis(){
+        LoadCustomers();
+        findInactive();
+    }
+
+    @FXML private TextArea tabCustomers;
+
+    @FXML
+    public void LoadCustomers(){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("%-10s %-25s %-25s %-25s %-25s %-25s\n", //format for alignment
+        "ID", "First Name", "Last Name", "Email", "Phone", "Country"));   //headings
+        sb.append("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+
+        String query = "SELECT CustomerId, FirstName, LastName, Email, Phone, Country FROM customer;";
+        try (Connection conn = DatabaseManager.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()){
+                sb.append(String.format("%-10s %-25s %-25s %-25s %-25s %-25s\n",//format for alignment
+                    rs.getString("CustomerId"),
+                    rs.getString("FirstName"),
+                    rs.getString("LastName"),
+                    rs.getString("Email"),
+                    rs.getString("Phone"),
+                    rs.getString("Country")
+                ));
+            }
+            
+            // 3. Update the UI
+            tabCustomers.setText(sb.toString());
+
+        } catch (SQLException e) {
+            tabCustomers.setText("Database error: " + e.getMessage());
+        }         
     }
 }
