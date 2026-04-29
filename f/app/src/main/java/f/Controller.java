@@ -7,12 +7,12 @@ import java.sql.Statement;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TextArea;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -32,6 +32,9 @@ public class Controller {
         );
 
         initLoadEmployee();
+        LoadTrack();
+        tabEmployee.setStyle("-fx-tab-size: 30;");
+
         
     }
 
@@ -48,9 +51,7 @@ public class Controller {
         //stringbuilder is more efficient than using a string
         StringBuilder sb = new StringBuilder();
 
-        sb.append(String.format("%-30s %-30s %-30s %-24s %-20s %-30s %-16s %-20s\n", //format for alignment
-        "First Name", "Last Name", "Title", "City", "Country", "Phone", "Active", "Supervisor"));   //headings
-        sb.append("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        sb.append("First Name\tLast Name\tTitle\tCity\tCountry\tPhone\tActive\tSupervisor\n");
 
         String val = filterValue.getText();
 
@@ -73,16 +74,22 @@ public class Controller {
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()){
-                sb.append(String.format("%-30s %-30s %-30s %-24s %-20s %-30s %-16s %-20s\n",//format for alignment
-                    rs.getString("FirstName"),
-                    rs.getString("LastName"),
-                    rs.getString("Title"),
-                    rs.getString("City"),
-                    rs.getString("Country"),
-                    rs.getString("Phone"),
-                    rs.getString("Active"),
-                    rs.getString("Supervisor")
-                ));
+                sb.append(rs.getString("FirstName"));
+                sb.append('\t');
+                sb.append(rs.getString("LastName"));
+                sb.append('\t');
+                sb.append(rs.getString("Title"));
+                sb.append('\t');
+                sb.append(rs.getString("City"));
+                sb.append('\t');
+                sb.append(rs.getString("Country"));
+                sb.append('\t');
+                sb.append(rs.getString("Phone"));
+                sb.append('\t');
+                sb.append(rs.getString("Active"));
+                sb.append('\t');
+                sb.append(rs.getString("Supervisor"));
+                sb.append('\n');
             }
             
             // 3. Update the UI
@@ -99,8 +106,7 @@ public class Controller {
         //stringbuilder is more efficient than using a string
         StringBuilder sb = new StringBuilder();
 
-        sb.append(String.format("%-30s %-30s %-30s %-24s %-20s %-30s %-16s %-20s\n", //format for alignment
-        "First Name", "Last Name", "Title", "City", "Country", "Phone", "Active", "Supervisor"));   //headings
+        sb.append("First Name\tLast Name\tTitle\tCity\tCountry\tPhone\tActive\tSupervisor\n");
         sb.append("----------------------------------------------------------------------------------------------------------\n");
 
         String query = "SELECT employee.FirstName, employee.LastName, employee.Title, employee.City, employee.Country, employee.Phone, IF(employee.Title = 'Sales Support Agent','Yes', 'No') AS Active, IFNULL(CONCAT(E.FirstName, ' ', E.LastName),'None') AS 'Supervisor' FROM employee LEFT JOIN employee AS E ON employee.ReportsTo = E.EmployeeId;";
@@ -110,16 +116,22 @@ public class Controller {
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()){
-                sb.append(String.format("%-30s %-30s %-30s %-24s %-20s %-30s %-16s %-20s\n",//format for alignment
-                    rs.getString("FirstName"),
-                    rs.getString("LastName"),
-                    rs.getString("Title"),
-                    rs.getString("City"),
-                    rs.getString("Country"),
-                    rs.getString("Phone"),
-                    rs.getString("Active"),
-                    rs.getString("Supervisor")
-                ));
+                sb.append(rs.getString("FirstName"));
+                sb.append('\t');
+                sb.append(rs.getString("LastName"));
+                sb.append('\t');
+                sb.append(rs.getString("Title"));
+                sb.append('\t');
+                sb.append(rs.getString("City"));
+                sb.append('\t');
+                sb.append(rs.getString("Country"));
+                sb.append('\t');
+                sb.append(rs.getString("Phone"));
+                sb.append('\t');
+                sb.append(rs.getString("Active"));
+                sb.append('\t');
+                sb.append(rs.getString("Supervisor"));
+                sb.append('\n');
             }
             
             // 3. Update the UI
@@ -144,6 +156,7 @@ public class Controller {
             stage.setScene(scene);
             // stage.setResizable(false);
             stage.show();
+            loadSpinners();
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -205,4 +218,140 @@ public class Controller {
     public void insertion(){
 
     }
+
+    @FXML private TextArea tabTracks;
+
+    @FXML
+    public void LoadTrack(){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("%-30s %-30s %-30s %-24s %-20s %-30s %-16s %-20s\n", //format for alignment
+        "Name", "Composer", "Album", "Genre", "Format", "Milliseconds", "Bytes", "UnitPrice"));   //headings
+        sb.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+
+        String query = "SELECT track.Name, track.Composer, album.Title AS Album, genre.Name AS Genre, mediatype.`Name` AS Format, track.Milliseconds, track.Bytes, track.UnitPrice FROM track LEFT JOIN album ON track.AlbumId = album.AlbumId LEFT JOIN genre ON track.GenreId = genre.GenreId LEFT JOIN mediatype ON track.MediaTypeId = mediatype.MediaTypeId;";
+        try (Connection conn = DatabaseManager.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()){
+                sb.append(String.format("%-30s %-30s %-30s %-24s %-20s %-30s %-16s %-20s\n",//format for alignment
+                    rs.getString("Name"),
+                    rs.getString("Composer"),
+                    rs.getString("Album"),
+                    rs.getString("Genre"),
+                    rs.getString("Format"),
+                    rs.getString("Milliseconds"),
+                    rs.getString("Bytes"),
+                    rs.getString("UnitPrice")
+                ));
+            }
+            
+            // 3. Update the UI
+            tabTracks.setText(sb.toString());
+
+        } catch (SQLException e) {
+            tabTracks.setText("Database error: " + e.getMessage());
+        }    
+    }
+
+    @FXML private TextArea tabGenre;
+    @FXML
+    public void LoadReport(){
+        StringBuilder sb = new StringBuilder();
+
+        // sb.append("Genre");   //headings
+        // sb.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+
+        String query = "SELECT T.Genre, SUM(T.Revenue) AS 'Total Revenue' FROM (SELECT genre.Name AS Genre, track.UnitPrice AS Revenue FROM invoiceline LEFT JOIN track ON invoiceline.TrackId = track.TrackId LEFT JOIN genre ON genre.GenreId = track.GenreId) AS T GROUP BY Genre;";
+        try (Connection conn = DatabaseManager.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()){
+                sb.append(rs.getString("Genre"));
+                sb.append(": $");
+                sb.append(rs.getFloat("Total Revenue"));
+                sb.append('\n');
+            }
+            
+            // 3. Update the UI
+            tabGenre.setText(sb.toString());
+
+        } catch (SQLException e) {
+            tabGenre.setText("Database error: " + e.getMessage());
+        }    
+    }
+
+    @FXML private TextArea tabInactive;
+    @FXML
+    public void findInactive(){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("FIRST NAME");
+        sb.append("\t\t\t");
+        sb.append("LAST NAME");
+        sb.append('\n'); //headings
+        sb.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+
+        String query = "SELECT FirstName, Lastname FROM customer WHERE CustomerId IN (SELECT CustomerId FROM invoice GROUP BY CustomerId HAVING TIMESTAMPDIFF(year, MAX(InvoiceDate), NOW()) > 2);";
+        try (Connection conn = DatabaseManager.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()){
+                sb.append(rs.getString("FirstName"));
+                sb.append("\t\t\t");
+                sb.append(rs.getString("LastName"));
+                sb.append('\n');
+            }
+            
+            // 3. Update the UI
+            tabInactive.setText(sb.toString());
+
+        } catch (SQLException e) {
+            tabInactive.setText("Database error: " + e.getMessage());
+        }            
+    }
+
+    @FXML private TextField edttInactiveUsers;
+
+    @FXML
+    public void searchInactive(){
+        StringBuilder sb = new StringBuilder();
+        String value = edttInactiveUsers.getText();
+
+        sb.append("FIRST NAME");
+        sb.append("\t\t\t");
+        sb.append("LAST NAME");
+        sb.append('\n'); //headings
+        sb.append("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+
+        String query = "SELECT FirstName, Lastname FROM customer WHERE CustomerId IN (SELECT CustomerId FROM invoice GROUP BY CustomerId HAVING TIMESTAMPDIFF(year, MAX(InvoiceDate), NOW()) > 2) AND CONCAT(FirstName, ' ', LastNAME) = "+ value +";";
+        try (Connection conn = DatabaseManager.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()){
+                sb.append(rs.getString("FirstName"));
+                sb.append("\t\t\t");
+                sb.append(rs.getString("LastName"));
+                sb.append('\n');
+            }
+            
+            // 3. Update the UI
+            tabInactive.setText(sb.toString());
+
+        } catch (SQLException e) {
+            tabInactive.setText("Database error: " + e.getMessage());
+        }            
+    }   
+
+    //recommendations
+    @FXML
+    public void loadFromChoice(){
+        
+    }
+
+
 }

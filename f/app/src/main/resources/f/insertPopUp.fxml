@@ -8,8 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.SpinnerValueFactory.DoubleValueFactory?>
 
-<Scene xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="f.InsertPopUpController">
+<Scene xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="f.Controller">
     <AnchorPane prefHeight="447.0" prefWidth="385.0">
       <children>
          <ComboBox fx:id="cmbAlbum" layoutX="84.0" layoutY="94.0" prefHeight="26.0" prefWidth="274.0" />

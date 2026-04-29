@@ -46,7 +46,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Tracks">
+          <Tab onSelectionChanged="#LoadTrack" text="Tracks">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -65,7 +65,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Report">
+          <Tab onSelectionChanged="#LoadReport" text="Report">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -74,12 +74,15 @@
                               <Font name="System Bold" size="28.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="tabGenre" editable="false" layoutX="45.0" layoutY="72.0" prefHeight="572.0" prefWidth="1159.0" />
+                        <TextArea fx:id="tabGenre" editable="false" layoutX="45.0" layoutY="72.0" prefHeight="572.0" prefWidth="1159.0">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font></TextArea>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Notifications">
+          <Tab onSelectionChanged="#findInactive" text="Notifications">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
